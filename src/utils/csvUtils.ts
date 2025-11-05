@@ -2,7 +2,7 @@ import Papa from 'papaparse';
 import { saveAs } from 'file-saver';
 import { TableRow } from '@/features/table/tableSlice';
 
-// importCsv now reports errors via callbacks with details
+
 export const importCSV = (
   file: File,
   onSuccess: (data: TableRow[]) => void,
@@ -14,19 +14,16 @@ export const importCSV = (
     dynamicTyping: false,
     complete: (results) => {
       if (results.errors && results.errors.length) {
-        // create a helpful message
         const msgs = results.errors.map((e) => 'Row ${e.row}: ${e.message}').slice(0, 5);
         onError('CSV parse error: ${msgs.join(";")}');
         return;
       }
 
       const parsed = results.data as any[];
-      // Basic validation: ensure entries are objects and at least have name/email OR one column
       if (!parsed.length) {
         onError('CSV is empty or header row missing.');
         return;
       }
-      // Normalize rows: keep as-is; caller will normalize ids
       try {
         onSuccess(parsed as TableRow[]);
       } catch (e) {

@@ -10,14 +10,14 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist';
-import storage from 'redux-persist/lib/storage'; // uses localStorage
+import storage from 'redux-persist/lib/storage'; 
 
-// Combine reducers (in case you add more features later)
+
 const rootReducer = combineReducers({
   table: tableReducer,
 });
 
-// Redux Persist configuration
+
 const persistConfig = {
   key: 'root',
   storage,

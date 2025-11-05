@@ -49,14 +49,14 @@ export default function DataTable() {
     Record<number, Record<string, any>>
   >({});
 
-  // 🔍 Filter rows by search
+
   const filteredRows = rows.filter((row) =>
     Object.values(row).some((value) =>
       (value ?? '').toString().toLowerCase().includes(searchTerm.toLowerCase())
     )
   );
 
-  // 🔄 Sort rows
+
   const sortedRows = [...filteredRows].sort((a, b) => {
     if (!sortColumn) return 0;
     const valA = a[sortColumn];
@@ -66,14 +66,14 @@ export default function DataTable() {
     return valA < valB ? 1 : -1;
   });
 
-  // 📄 Pagination
+  
   const rowsPerPage = 10;
   const paginatedRows = sortedRows.slice(
     (currentPage - 1) * rowsPerPage,
     currentPage * rowsPerPage
   );
 
-  // ✏ Edit handlers
+  
   const startEditRow = (row: any) => {
     setEditRowId(row.id);
     setEditValues({ ...row });
@@ -94,7 +94,6 @@ export default function DataTable() {
  const handleSaveOne = (id: number) => {
   const updated = editValues;
 
-  // ✅ Email validation
   if (
     updated.email &&
     !/^\S+@\S+\.\S+$/.test(updated.email.toString().trim())
@@ -103,7 +102,7 @@ export default function DataTable() {
     return;
   }
 
-  // ✅ Age validation
+  
   if (
     updated.age !== undefined &&
     updated.age !== '' &&
@@ -113,7 +112,6 @@ export default function DataTable() {
     return;
   }
 
-  // ✅ Make sure all fields exist to satisfy TableRow type
   const currentRow = rows.find((row) => row.id === id);
   if (!currentRow) return;
 
@@ -140,7 +138,6 @@ export default function DataTable() {
     }
   };
 
-  // ✅ Save All / Cancel All
   const handleSaveAll = () => {
     Object.entries(batchEdits).forEach(([idStr, values]) => {
       const id = Number(idStr);
@@ -160,7 +157,7 @@ export default function DataTable() {
         return;
       }
       const base = rows.find((r) => r.id === id);
-if (!base) return; // ✅ guard clause to prevent undefined
+if (!base) return; 
 
 const updatedRow = { ...base, ...values, id };
 dispatch(updateRow(updatedRow));
@@ -185,7 +182,7 @@ dispatch(updateRow(updatedRow));
   dispatch(reorderRows(newRows));
 };
 
-  // 🧭 Column reorder
+  
   const onDragEnd = useCallback(
     (result: DropResult) => {
       if (!result.destination) return;
@@ -198,7 +195,7 @@ dispatch(updateRow(updatedRow));
 
   return (
     <TableContainer component={Paper}>
-      {/* Save All / Cancel All */}
+      
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1, p: 1 }}>
         <Button
           disabled={!Object.keys(batchEdits).length}
@@ -219,7 +216,7 @@ dispatch(updateRow(updatedRow));
       </Box>
 
       <Table>
-        {/* 🧭 Draggable Table Head */}
+        
         <TableHead>
           <DragDropContext onDragEnd={onDragEnd}>
             <Droppable droppableId="columns" direction="horizontal">
@@ -253,7 +250,7 @@ dispatch(updateRow(updatedRow));
           </DragDropContext>
         </TableHead>
 
-        {/* 🧾 Table Body */}
+        {/* Table Body */}
         <DragDropContext onDragEnd={handleDragEnd}>
   <Droppable droppableId="rows">
     {(provided) => (
@@ -305,7 +302,7 @@ dispatch(updateRow(updatedRow));
 </DragDropContext>
       </Table>
 
-      {/* 📄 Pagination */}
+      {/* Pagination */}
       <TablePagination
         component="div"
         count={sortedRows.length}

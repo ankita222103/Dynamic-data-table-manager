@@ -60,15 +60,15 @@ const tableSlice = createSlice({
       }
     },
 
-    // Replace table rows (used by CSV import)
+    
     setRows: (state, action: PayloadAction<TableRow[]>) => {
   state.rows = action.payload.map((r, i) => ({
     ...r,
-    id: i + 1, // ✅ put id last so it always overrides safely
+    id: i + 1, 
   }));
   state.currentPage = 1;
 },
-    // Add a single row (used by AddRowModal). Accepts object without id.
+  
     addRow: (state, action: PayloadAction<Partial<TableRow>>) => {
   const newId =
     state.rows.length > 0 ? Math.max(...state.rows.map((r) => r.id)) + 1 : 1;
@@ -84,7 +84,7 @@ const tableSlice = createSlice({
   const newRow = { ...defaultRow, ...action.payload, id: newId };
   state.rows.push(newRow);
 },
-    // Sorting & pagination reducers
+    
     setSort: (state, action: PayloadAction<string>) => {
       const col = action.payload;
       if (state.sortColumn === col) {
