@@ -5,12 +5,8 @@ export const getAppTheme = (mode: 'light' | 'dark') =>
     palette: {
       mode,
       ...(mode === 'light'
-        ? {
-            background: { default: '#f9f9f9' },
-          }
-        : {
-            background: { default: '#121212' },
-          }),
+        ? { background: { default: '#f9f9f9' } }
+        : { background: { default: '#121212' } }),
     },
     typography: {
       fontSize: 14,
